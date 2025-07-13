@@ -38,6 +38,6 @@ streamlit run app.py
 
 4. **Process Orders:**
 - Navigate to the Main Page.
-- Click process to generate matched item files.
+- Click **Start Matching** to generate matched item files.
 
 ---
