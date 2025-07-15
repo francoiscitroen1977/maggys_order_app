@@ -25,6 +25,11 @@ def config_page():
 
     config["po_qty_column"] = st.text_input("PO Quantity Column Name", config.get("po_qty_column", "Sales Products Qty"))
 
-    if st.button("Save Configuration"):
+    if len(po_files) == 0:
+        st.warning("No PO files available. Please upload a PO file before saving.")
+
+    save_disabled = len(po_files) == 0 or len(config.get("po_files", [])) == 0
+
+    if st.button("Save Configuration", disabled=save_disabled):
         config_manager.save_config(config)
         st.success("Configuration Saved!")
