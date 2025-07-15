@@ -8,12 +8,14 @@ CONFIG_FILE = Path("config.json")
 def load_config():
     if CONFIG_FILE.exists():
         with open(CONFIG_FILE, "r") as f:
-            return json.load(f)
+            config = json.load(f)
+        # Remove legacy key if present
+        config.pop("full_price_file", None)
+        return config
     return {
-        "full_price_file": None,
         "newitems_file": None,
         "po_files": [],
-        "po_qty_column": "Sales Products Qty"
+        "po_qty_column": "Sales Products Qty",
     }
 
 
