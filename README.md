@@ -32,7 +32,7 @@ streamlit run app.py
 
 3. **Configure:**
 - Go to the Configuration page.
-- Select the relevant files for New Items and PO Files.
+- Select the relevant files for New Items and at least one PO File.
 - Set the PO Quantity column name.
 - Save the configuration.
 
