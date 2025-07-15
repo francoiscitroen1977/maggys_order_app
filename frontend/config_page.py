@@ -9,7 +9,6 @@ def config_page():
 
     config = config_manager.load_config()
 
-    full_price_files = file_processing.list_files_in_directory(paths.FULL_PRICE_DIR)
     new_items_files = file_processing.list_files_in_directory(paths.NEW_ITEMS_DIR)
     po_files = file_processing.list_files_in_directory(paths.UPLOADED_PO_DIR)
 
@@ -21,7 +20,6 @@ def config_page():
         st.success(f"File {uploaded_po.name} uploaded successfully!")
         po_files = file_processing.list_files_in_directory(paths.UPLOADED_PO_DIR)
 
-    config["full_price_file"] = st.selectbox("Select Full Price File", full_price_files, index=full_price_files.index(config.get("full_price_file")) if config.get("full_price_file") else 0)
     config["newitems_file"] = st.selectbox("Select New Items File", new_items_files, index=new_items_files.index(config.get("newitems_file")) if config.get("newitems_file") else 0)
     config["po_files"] = st.multiselect("Select PO Files", po_files, default=config.get("po_files", []))
 
