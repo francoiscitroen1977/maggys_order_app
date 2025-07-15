@@ -2,7 +2,7 @@
 
 ## Maggys Order App
 
-This Streamlit-based web application helps manage product orders for Maggys by filtering, matching, and processing purchase order (PO) files, new items files, and full price lists.
+This Streamlit-based web application helps manage product orders for Maggys by filtering, matching, and processing purchase order (PO) files and new items files.
 
 ### 📂 Folder Structure Overview
 
@@ -32,7 +32,7 @@ streamlit run app.py
 
 3. **Configure:**
 - Go to the Configuration page.
-- Select the relevant files for Full Price, New Items, and PO Files.
+- Select the relevant files for New Items and PO Files.
 - Set the PO Quantity column name.
 - Save the configuration.
 
