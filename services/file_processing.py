@@ -2,6 +2,7 @@
 import pandas as pd
 from config import paths
 from datetime import datetime
+from services import logger
 
 def list_files_in_directory(directory_path):
     return [f.name for f in directory_path.glob("*.*") if f.is_file()]
@@ -12,16 +13,21 @@ def read_full_price_file(filename):
 
 def read_new_items_file(filename):
     file_path = paths.NEW_ITEMS_DIR / filename
-    return pd.read_csv(file_path)
+    df = pd.read_csv(file_path)
+    logger.log(f"Read new items file {filename}", df)
+    return df
 
 def read_po_file(filename):
     file_path = paths.UPLOADED_PO_DIR / filename
-    return pd.read_excel(file_path)
+    df = pd.read_excel(file_path)
+    logger.log(f"Read PO file {filename}", df)
+    return df
 
 
 def save_matched_items(df, output_filename):
     output_path = paths.NEW_ITEMS_DIR / output_filename
     df.to_csv(output_path, index=False)
+    logger.log(f"Saved matched items to {output_filename}", df)
     return output_path
 
 
@@ -31,4 +37,5 @@ def save_selected_items(df):
     filename = f"NewItems_{timestamp}.csv"
     output_path = paths.NEW_ITEMS_DIR / filename
     df.to_csv(output_path, index=False)
+    logger.log(f"Saved selected items to {filename}", df)
     return output_path
