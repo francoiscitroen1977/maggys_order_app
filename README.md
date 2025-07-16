@@ -34,6 +34,7 @@ streamlit run app.py
 - Go to the Configuration page.
 - Select the relevant files for New Items and at least one PO File.
 - Set the PO Quantity column name.
+- Enable **Logging On** if you want to store process logs.
 - Save the configuration.
 
 4. **Process Orders:**

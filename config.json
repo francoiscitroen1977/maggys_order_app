@@ -1,5 +1,6 @@
 {
     "newitems_file": "NEW_V09_20240701_152944.csv",
     "po_files": [],
-    "po_qty_column": "Sales Products Qty"
+    "po_qty_column": "Sales Products Qty",
+    "logging_on": false
 }

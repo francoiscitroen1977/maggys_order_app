@@ -23,6 +23,8 @@ def config_page():
     config["newitems_file"] = st.selectbox("Select New Items File", new_items_files, index=new_items_files.index(config.get("newitems_file")) if config.get("newitems_file") else 0)
     config["po_files"] = st.multiselect("Select PO Files", po_files, default=config.get("po_files", []))
 
+    config["logging_on"] = st.checkbox("Logging On", value=config.get("logging_on", False))
+
     if po_files and len(config["po_files"]) == 0:
         st.warning("Please select at least one PO file before saving.")
 
