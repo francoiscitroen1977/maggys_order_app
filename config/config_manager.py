@@ -11,11 +11,14 @@ def load_config():
             config = json.load(f)
         # Remove legacy key if present
         config.pop("full_price_file", None)
+        if "logging_on" not in config:
+            config["logging_on"] = False
         return config
     return {
         "newitems_file": None,
         "po_files": [],
         "po_qty_column": "Sales Products Qty",
+        "logging_on": False,
     }
 
 
