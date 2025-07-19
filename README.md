@@ -38,7 +38,8 @@ streamlit run app.py
 - Save the configuration.
 
 4. **Process Orders:**
-- Navigate to the Main Page.
-- Click **Start Matching** to generate matched item files.
+ - Navigate to the Main Page.
+ - Click **Start Matching** to generate matched item files. The files will be saved in the `Newfiletemp` folder.
+ - After selecting rows, click **Create new file** to export them as `PreProcess_NewItems_<timestamp>.csv` in the same folder.
 
 ---
