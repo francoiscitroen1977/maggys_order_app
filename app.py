@@ -11,8 +11,8 @@ st.sidebar.title("Navigation")
 page = st.sidebar.radio(
     "Go to",
     [
-        "Pre-process matching",
         "Configure matching",
+        "Pre-process matching",
         "Process configured matches",
     ],
 )
