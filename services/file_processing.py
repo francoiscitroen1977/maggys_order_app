@@ -25,17 +25,20 @@ def read_po_file(filename):
 
 
 def save_matched_items(df, output_filename):
-    output_path = paths.NEW_ITEMS_DIR / output_filename
+    """Save matched items to the temporary New Items directory."""
+    paths.NEW_ITEMS_TEMP_DIR.mkdir(parents=True, exist_ok=True)
+    output_path = paths.NEW_ITEMS_TEMP_DIR / output_filename
     df.to_csv(output_path, index=False)
     logger.log(f"Saved matched items to {output_filename}", df)
     return output_path
 
 
 def save_selected_items(df):
-    """Save selected items to a timestamped file in the New Items directory."""
+    """Save selected items to a timestamped file in the temporary directory."""
+    paths.NEW_ITEMS_TEMP_DIR.mkdir(parents=True, exist_ok=True)
     timestamp = datetime.now().strftime("%y%m%d_%H%M%S")
-    filename = f"NewItems_{timestamp}.csv"
-    output_path = paths.NEW_ITEMS_DIR / filename
+    filename = f"PreProcess_NewItems_{timestamp}.csv"
+    output_path = paths.NEW_ITEMS_TEMP_DIR / filename
     df.to_csv(output_path, index=False)
     logger.log(f"Saved selected items to {filename}", df)
     return output_path

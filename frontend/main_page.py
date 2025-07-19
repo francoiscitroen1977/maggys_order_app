@@ -34,7 +34,7 @@ def main_page():
             matched_items = file_matching.match_items(po_path, new_items_path, config["po_qty_column"])
             output_filename = f"matched_{po_filename.replace('.xlsx', '')}.csv"
             file_processing.save_matched_items(matched_items, output_filename)
-            st.success(f"Matched items saved to {output_filename}")
+            st.success(f"Matched items saved to Newfiletemp/{output_filename}")
             matched_list.append(matched_items)
 
         if matched_list:
@@ -55,6 +55,6 @@ def main_page():
             if selected_indices:
                 export_df = matched_df.loc[selected_indices]
                 output_path = file_processing.save_selected_items(export_df)
-                st.success(f"Selected items saved to {output_path.name}")
+                st.success(f"Selected items saved to Newfiletemp/{output_path.name}")
             else:
                 st.warning("No items selected.")
