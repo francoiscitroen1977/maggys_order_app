@@ -2,7 +2,8 @@
 """Page to review and edit preprocessed item files."""
 
 import streamlit as st
-from services import file_processing
+from services import file_processing, utils
+from config import paths
 
 
 def process_configured_matches_page():
@@ -19,8 +20,44 @@ def process_configured_matches_page():
         return
 
     df = file_processing.read_preprocessed_file(selected_file)
-    edited_df = st.data_editor(df, num_rows="dynamic")
 
-    if st.button("Save Changes"):
-        file_processing.save_preprocessed_file(edited_df, selected_file)
-        st.success(f"Saved changes to {selected_file}")
+    # Load dropdown options from JSON files
+    categ_codes = utils.load_json_codes(paths.JSON_FILES_DIR / "categories_clean.json", "CATEG_COD")
+    subcat_codes = utils.load_json_codes(paths.JSON_FILES_DIR / "subcategories_clean.json", "SUBCAT_COD")
+    acct_codes = utils.load_json_codes(paths.JSON_FILES_DIR / "New_Acct_cod.json", "ACCT_COD")
+
+    column_config = {
+        "CATEG_COD": st.column_config.SelectboxColumn(
+            label="Category Code",
+            help="Choose a category code",
+            options=categ_codes,
+            required=False,
+        ),
+        "SUBCAT_COD": st.column_config.SelectboxColumn(
+            label="Subcategory Code",
+            help="Choose a subcategory code",
+            options=subcat_codes,
+            required=False,
+        ),
+        "ACCT_COD": st.column_config.SelectboxColumn(
+            label="Account Code",
+            help="Choose an account code",
+            options=acct_codes,
+            required=False,
+        ),
+    }
+
+    edited_df = st.data_editor(
+        df,
+        num_rows="dynamic",
+        column_config=column_config,
+        use_container_width=True,
+    )
+
+    csv_data = edited_df.to_csv(index=False).encode("utf-8")
+    st.download_button(
+        "Download CSV",
+        csv_data,
+        file_name=f"updated_{selected_file}",
+        mime="text/csv",
+    )
