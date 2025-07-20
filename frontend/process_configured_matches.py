@@ -47,11 +47,13 @@ def process_configured_matches_page():
         ),
     }
 
+    editor_key = f"editor_{selected_file}"
     edited_df = st.data_editor(
         df,
         num_rows="dynamic",
         column_config=column_config,
         use_container_width=True,
+        key=editor_key,
     )
 
     csv_data = edited_df.to_csv(index=False).encode("utf-8")
