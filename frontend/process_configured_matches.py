@@ -48,6 +48,9 @@ def process_configured_matches_page():
     }
 
     editor_key = f"editor_{selected_file}"
+    session_key = f"edited_{selected_file}"
+
+    # Display editable table
     edited_df = st.data_editor(
         df,
         num_rows="dynamic",
@@ -56,16 +59,22 @@ def process_configured_matches_page():
         key=editor_key,
     )
 
-    if edited_df is not None:
-        st.session_state[f"edited_{selected_file}"] = edited_df
+    # Save button to commit edits to session state
+    if st.button("Save Changes"):
+        st.session_state[session_key] = edited_df
+        st.success("Changes saved. You can now download the updated file.")
 
-    csv_df = st.session_state.get(f"edited_{selected_file}", df)
-    csv_data = csv_df.to_csv(index=False).encode("utf-8")
+    # Use updated version from session or original
+    csv_df = st.session_state.get(session_key)
 
-    st.caption("⚠️ Please press Enter or click outside the cell after editing before downloading.")
-    st.download_button(
-        "Download CSV",
-        data=csv_data,
-        file_name=f"updated_{selected_file}",
-        mime="text/csv",
-    )
+    # Show download button only if saved
+    if csv_df is not None:
+        csv_data = csv_df.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            "Download CSV",
+            data=csv_data,
+            file_name=f"updated_{selected_file}",
+            mime="text/csv",
+        )
+    else:
+        st.caption("⚠️ Edit values and click 'Save Changes' before downloading.")
