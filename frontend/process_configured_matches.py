@@ -56,10 +56,16 @@ def process_configured_matches_page():
         key=editor_key,
     )
 
-    csv_data = edited_df.to_csv(index=False).encode("utf-8")
+    if edited_df is not None:
+        st.session_state[f"edited_{selected_file}"] = edited_df
+
+    csv_df = st.session_state.get(f"edited_{selected_file}", df)
+    csv_data = csv_df.to_csv(index=False).encode("utf-8")
+
+    st.caption("⚠️ Please press Enter or click outside the cell after editing before downloading.")
     st.download_button(
         "Download CSV",
-        csv_data,
+        data=csv_data,
         file_name=f"updated_{selected_file}",
         mime="text/csv",
     )
