@@ -1,6 +1,8 @@
 {
-    "newitems_file": "NEW_V09_20240701_152944.csv",
-    "po_files": [],
+    "newitems_file": "NEW_V09_20250719_113327.csv",
+    "po_files": [
+        "PO 0_25 BVL Maggys June Price List.xlsx"
+    ],
     "po_qty_column": "Sales Products Qty",
     "logging_on": false
 }

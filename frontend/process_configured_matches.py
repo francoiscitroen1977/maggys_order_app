@@ -21,12 +21,21 @@ def process_configured_matches_page():
 
     df = file_processing.read_preprocessed_file(selected_file)
 
-    # Load dropdown options from JSON files
-    categ_codes = utils.load_json_codes(paths.JSON_FILES_DIR / "categories_clean.json", "CATEG_COD")
-    subcat_codes = utils.load_json_codes(paths.JSON_FILES_DIR / "subcategories_clean.json", "SUBCAT_COD")
-    acct_codes = utils.load_json_codes(paths.JSON_FILES_DIR / "New_Acct_cod.json", "ACCT_COD")
+    # ✅ Ensure all editable columns are string type to avoid Selectbox casting errors
+    for col in ["ITEM_NO", "DESCR", "ITEM_VEND_NO", "CATEG_COD", "SUBCAT_COD", "ACCT_COD"]:
+        if col in df.columns:
+            df[col] = df[col].astype(str).fillna("")
+
+    # ✅ Load dropdown options and ensure they're strings too
+    categ_codes = [str(c) for c in utils.load_json_codes(paths.JSON_FILES_DIR / "categories_clean.json", "CATEG_COD")]
+    subcat_codes = [str(s) for s in utils.load_json_codes(paths.JSON_FILES_DIR / "subcategories_clean.json", "SUBCAT_COD")]
+    acct_codes = [str(a) for a in utils.load_json_codes(paths.JSON_FILES_DIR / "New_Acct_cod.json", "ACCT_COD")]
 
     column_config = {
+        "ITEM_NO": st.column_config.TextColumn("Item Number"),
+        "DESCR": st.column_config.TextColumn("Description"),
+        "ITEM_VEND_NO": st.column_config.TextColumn("Vendor Code"),
+
         "CATEG_COD": st.column_config.SelectboxColumn(
             label="Category Code",
             help="Choose a category code",
