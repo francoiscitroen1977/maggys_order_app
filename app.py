@@ -1,28 +1,32 @@
-# app.py
-import streamlit as st
-from frontend import (
-    config_page,
-    main_page,
-    configure_matching,
-    process_configured_matches,
-)
+from nicegui import ui
+from frontend import config_page, main_page, configure_matching, process_configured_matches
 
-# Expand the page layout so wide tables utilize more horizontal space
-st.set_page_config(page_title="Maggys Order App", layout="wide")
 
-st.sidebar.title("Navigation")
-page = st.sidebar.radio(
-    "Go to",
-    [
-        "Configure matching",
-        "Pre-process matching",
-        "Process configured matches",
-    ],
-)
+def navbar():
+    with ui.header().classes('justify-between'):
+        ui.label('Maggys Order App')
+        with ui.row():
+            ui.link('Configure matching', '/configure')
+            ui.link('Pre-process matching', '/')
+            ui.link('Process configured matches', '/process')
 
-if page == "Pre-process matching":
+
+@ui.page('/')
+def index_page() -> None:
+    navbar()
     main_page.main_page()
-elif page == "Configure matching":
+
+
+@ui.page('/configure')
+def configure_page() -> None:
+    navbar()
     configure_matching.configure_matching_page()
-else:
+
+
+@ui.page('/process')
+def process_page() -> None:
+    navbar()
     process_configured_matches.process_configured_matches_page()
+
+
+ui.run(title='Maggys Order App')
