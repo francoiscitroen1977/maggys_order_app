@@ -7,6 +7,9 @@ from frontend import (
     process_configured_matches,
 )
 
+# Expand the page layout so wide tables utilize more horizontal space
+st.set_page_config(page_title="Maggys Order App", layout="wide")
+
 st.sidebar.title("Navigation")
 page = st.sidebar.radio(
     "Go to",
