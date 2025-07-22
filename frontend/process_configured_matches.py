@@ -98,19 +98,20 @@ def process_configured_matches_page():
             price_filename = f"price_{updated_filename}"
             file_processing.save_preprocessed_file(price_df, price_filename)
 
-        st.success("Changes saved. You can now download the updated file.")
+
+        st.success("Changes saved. You can now save the new files.")
+
 
     # Use updated version from session or original
     csv_df = st.session_state.get(session_key)
 
-    # Show download button only if saved
+    # Allow saving edited files to the ProcessedNew directory
     if csv_df is not None:
-        csv_data = csv_df.to_csv(index=False).encode("utf-8")
-        st.download_button(
-            "Download CSV",
-            data=csv_data,
-            file_name=f"updated_{selected_file}",
-            mime="text/csv",
-        )
+        if st.button("Save new Files"):
+            updated_filename = f"updated_{selected_file}"
+            price_filename = f"price_{updated_filename}"
+            file_processing.copy_to_processed_new(updated_filename)
+            file_processing.copy_to_processed_new(price_filename)
+            st.success("Files saved to ProcessedNew.")
     else:
-        st.caption("⚠️ Edit values and click 'Save Changes' before downloading.")
+        st.caption("⚠️ Edit values and click 'Save Changes' before saving files.")
