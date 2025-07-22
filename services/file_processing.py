@@ -64,3 +64,14 @@ def save_preprocessed_file(df, filename):
     df.to_csv(file_path, index=False)
     logger.log(f"Saved edited preprocessed file {filename}", df)
     return file_path
+
+
+def copy_to_processed_new(filename):
+    """Copy a file from the temp directory to the ProcessedNew directory."""
+    paths.PROCESSED_NEW_DIR.mkdir(parents=True, exist_ok=True)
+    src = paths.NEW_ITEMS_TEMP_DIR / filename
+    dest = paths.PROCESSED_NEW_DIR / filename
+    if src.exists():
+        dest.write_bytes(src.read_bytes())
+        logger.log(f"Copied {filename} to ProcessedNew")
+    return dest
