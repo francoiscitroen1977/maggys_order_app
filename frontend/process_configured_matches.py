@@ -71,6 +71,33 @@ def process_configured_matches_page():
     # Save button to commit edits to session state
     if st.button("Save Changes"):
         st.session_state[session_key] = edited_df
+
+        # Write the edited data back to the temp directory
+        updated_filename = f"updated_{selected_file}"
+        file_processing.save_preprocessed_file(edited_df, updated_filename)
+
+        # Create the additional price file based on the edited data
+        required_cols = {"ITEM_NO", "PRC_1", "PRC_2"}
+        if required_cols.issubset(edited_df.columns):
+            price_df = edited_df[["ITEM_NO", "PRC_1", "PRC_2"]].copy()
+            price_df.insert(1, "LOC_ID", "*")
+            price_df.insert(2, "DIM_1_UPR", "*")
+            price_df.insert(3, "DIM_2_UPR", "*")
+            price_df.insert(4, "DIM_3_UPR", "*")
+            price_df = price_df[
+                [
+                    "ITEM_NO",
+                    "LOC_ID",
+                    "DIM_1_UPR",
+                    "DIM_2_UPR",
+                    "DIM_3_UPR",
+                    "PRC_1",
+                    "PRC_2",
+                ]
+            ]
+            price_filename = f"price_{updated_filename}"
+            file_processing.save_preprocessed_file(price_df, price_filename)
+
         st.success("Changes saved. You can now download the updated file.")
 
     # Use updated version from session or original
