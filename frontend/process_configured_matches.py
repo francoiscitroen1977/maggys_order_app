@@ -71,19 +71,47 @@ def process_configured_matches_page():
     # Save button to commit edits to session state
     if st.button("Save Changes"):
         st.session_state[session_key] = edited_df
-        st.success("Changes saved. You can now download the updated file.")
+
+        # Write the edited data back to the temp directory
+        updated_filename = f"updated_{selected_file}"
+        file_processing.save_preprocessed_file(edited_df, updated_filename)
+
+        # Create the additional price file based on the edited data
+        required_cols = {"ITEM_NO", "PRC_1", "PRC_2"}
+        if required_cols.issubset(edited_df.columns):
+            price_df = edited_df[["ITEM_NO", "PRC_1", "PRC_2"]].copy()
+            price_df.insert(1, "LOC_ID", "*")
+            price_df.insert(2, "DIM_1_UPR", "*")
+            price_df.insert(3, "DIM_2_UPR", "*")
+            price_df.insert(4, "DIM_3_UPR", "*")
+            price_df = price_df[
+                [
+                    "ITEM_NO",
+                    "LOC_ID",
+                    "DIM_1_UPR",
+                    "DIM_2_UPR",
+                    "DIM_3_UPR",
+                    "PRC_1",
+                    "PRC_2",
+                ]
+            ]
+            price_filename = f"price_{updated_filename}"
+            file_processing.save_preprocessed_file(price_df, price_filename)
+
+
+        st.success("Changes saved. You can now save the new files.")
+
 
     # Use updated version from session or original
     csv_df = st.session_state.get(session_key)
 
-    # Show download button only if saved
+    # Allow saving edited files to the ProcessedNew directory
     if csv_df is not None:
-        csv_data = csv_df.to_csv(index=False).encode("utf-8")
-        st.download_button(
-            "Download CSV",
-            data=csv_data,
-            file_name=f"updated_{selected_file}",
-            mime="text/csv",
-        )
+        if st.button("Save new Files"):
+            updated_filename = f"updated_{selected_file}"
+            price_filename = f"price_{updated_filename}"
+            file_processing.copy_to_processed_new(updated_filename)
+            file_processing.copy_to_processed_new(price_filename)
+            st.success("Files saved to ProcessedNew.")
     else:
-        st.caption("⚠️ Edit values and click 'Save Changes' before downloading.")
+        st.caption("⚠️ Edit values and click 'Save Changes' before saving files.")

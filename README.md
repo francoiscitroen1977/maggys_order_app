@@ -57,7 +57,7 @@ Maggys Order App is a Streamlit application for matching product orders and prep
 - Open the **Process configured matches** page.
 - Pick one of the `PreProcess_NewItems` files.
 - Edit values directly in the table. Category, subcategory, and account codes are loaded from JSON files in `JsonFiles/`.
-- Click **Save Changes** and then **Download CSV** to obtain the updated file.
+ - Click **Save Changes** and then **Save new Files** to write the updated and price files into the `ProcessedNew` folder.
 
 ## Configuration File
 
