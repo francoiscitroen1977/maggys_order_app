@@ -12,7 +12,7 @@ def process_configured_matches_page():
 
     preprocessed_files = file_processing.list_preprocessed_files()
     if not preprocessed_files:
-        st.info("No PreProcess_NewItems files found in Newfiletemp.")
+        st.info("No preprocessed files found in Newfiletemp.")
         return
 
     selected_file = st.selectbox("Select Preprocessed File", preprocessed_files)

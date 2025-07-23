@@ -8,9 +8,9 @@ def list_files_in_directory(directory_path):
     return [f.name for f in directory_path.glob("*.*") if f.is_file()]
 
 def list_preprocessed_files():
-    """Return all files starting with ``PreProcess_NewItems`` in the temp directory."""
+    """Return all files starting with ``preprocessed_`` in the temp directory."""
     paths.NEW_ITEMS_TEMP_DIR.mkdir(parents=True, exist_ok=True)
-    return [f.name for f in paths.NEW_ITEMS_TEMP_DIR.glob("PreProcess_NewItems*") if f.is_file()]
+    return [f.name for f in paths.NEW_ITEMS_TEMP_DIR.glob("preprocessed_*") if f.is_file()]
 
 def read_full_price_file(filename):
     file_path = paths.FULL_PRICE_DIR / filename
@@ -38,11 +38,10 @@ def save_matched_items(df, output_filename):
     return output_path
 
 
-def save_selected_items(df):
-    """Save selected items to a timestamped file in the temporary directory."""
+def save_selected_items(df, source_filename: str):
+    """Save selected rows using the original filename with ``preprocessed_`` prefix."""
     paths.NEW_ITEMS_TEMP_DIR.mkdir(parents=True, exist_ok=True)
-    timestamp = datetime.now().strftime("%y%m%d_%H%M%S")
-    filename = f"PreProcess_NewItems_{timestamp}.csv"
+    filename = f"preprocessed_{source_filename}"
     output_path = paths.NEW_ITEMS_TEMP_DIR / filename
     df.to_csv(output_path, index=False)
     logger.log(f"Saved selected items to {filename}", df)

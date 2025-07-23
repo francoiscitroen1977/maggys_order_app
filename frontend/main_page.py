@@ -54,7 +54,7 @@ def main_page():
         if st.button("Create new file"):
             if selected_indices:
                 export_df = matched_df.loc[selected_indices]
-                output_path = file_processing.save_selected_items(export_df)
+                output_path = file_processing.save_selected_items(export_df, new_items_file)
                 st.success(f"Selected items saved to Newfiletemp/{output_path.name}")
             else:
                 st.warning("No items selected.")
