@@ -58,6 +58,6 @@ def main_page():
                 st.success(f"Selected items saved to Newfiletemp/{output_path.name}")
                 time.sleep(3)
                 st.session_state.redirect_to_page = "Process configured matches"
-                st.experimental_rerun()
+                st.rerun()
             else:
                 st.warning("No items selected.")
