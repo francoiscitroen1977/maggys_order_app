@@ -18,6 +18,7 @@ page = st.sidebar.radio(
         "Pre-process matching",
         "Process configured matches",
     ],
+    key="current_page",
 )
 
 if page == "Pre-process matching":
