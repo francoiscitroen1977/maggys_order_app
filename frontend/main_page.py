@@ -58,7 +58,7 @@ def main_page():
                 output_path = file_processing.save_selected_items(export_df, new_items_file)
                 st.success(f"Selected items saved to Newfiletemp/{output_path.name}")
                 time.sleep(3)
-                st.session_state.current_page = "Process configured matches"
+                st.session_state.redirect_to_page = "Process configured matches"
                 st.experimental_rerun()
             else:
                 st.warning("No items selected.")
