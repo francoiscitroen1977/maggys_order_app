@@ -3,7 +3,7 @@ import streamlit as st
 from config import config_manager, paths
 from services import file_processing, file_matching
 import pandas as pd
-from datetime import datetime
+import time
 
 def main_page():
     st.header("Process Orders")
@@ -54,7 +54,10 @@ def main_page():
         if st.button("Create new file"):
             if selected_indices:
                 export_df = matched_df.loc[selected_indices]
-                output_path = file_processing.save_selected_items(export_df)
+                output_path = file_processing.save_selected_items(export_df, new_items_file)
                 st.success(f"Selected items saved to Newfiletemp/{output_path.name}")
+                time.sleep(3)
+                st.session_state.redirect_to_page = "Process configured matches"
+                st.rerun()
             else:
                 st.warning("No items selected.")
