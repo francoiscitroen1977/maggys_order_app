@@ -50,12 +50,13 @@ Maggys Order App is a Streamlit application for matching product orders and prep
 
 - Go to **Pre-process matching** (the main page).
 - Click **Start Matching** to compare the selected files. Matched rows are saved in `Newfiletemp/` with names like `matched_<PO>.csv`.
-- Select any rows you wish to keep and click **Create new file**. A `PreProcess_NewItems_<timestamp>.csv` file will be created in the same folder.
+- Select any rows you wish to keep and click **Create new file**. The output will
+  be saved as `preprocessed_<NewItemsFileName>` in the same folder.
 
 ### 3. Process Configured Matches
 
 - Open the **Process configured matches** page.
-- Pick one of the `PreProcess_NewItems` files.
+- Pick one of the `preprocessed_` files.
 - Edit values directly in the table. Category, subcategory, and account codes are loaded from JSON files in `JsonFiles/`.
  - Click **Save Changes** and then **Save new Files** to write the updated and price files into the `ProcessedNew` folder.
 
