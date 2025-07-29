@@ -12,6 +12,10 @@ def config_page():
     new_items_files = file_processing.list_files_in_directory(paths.NEW_ITEMS_DIR)
     po_files = file_processing.list_files_in_directory(paths.UPLOADED_PO_DIR)
 
+    config["newitems_file"] = st.selectbox("Select New Items File", new_items_files,
+                                           index=new_items_files.index(config.get("newitems_file")) if config.get(
+                                               "newitems_file") else 0)
+
     uploaded_po = st.file_uploader("Upload PO File", type=["xlsx"])
     if uploaded_po is not None:
         save_path = paths.UPLOADED_PO_DIR / uploaded_po.name
@@ -20,15 +24,20 @@ def config_page():
         st.success(f"File {uploaded_po.name} uploaded successfully!")
         po_files = file_processing.list_files_in_directory(paths.UPLOADED_PO_DIR)
 
-    config["newitems_file"] = st.selectbox("Select New Items File", new_items_files, index=new_items_files.index(config.get("newitems_file")) if config.get("newitems_file") else 0)
-    config["po_files"] = st.multiselect("Select PO Files", po_files, default=config.get("po_files", []))
 
-    config["logging_on"] = st.checkbox("Logging On", value=config.get("logging_on", False))
+    config["po_files"] = st.multiselect("Select PO Files", po_files, default=config.get("po_files", []))
+    config["po_qty_column"] = st.text_input("PO Quantity Column Name",
+                                            config.get("po_qty_column", "Sales Products Qty"))
+
+
+
+
+    #config["logging_on"] = st.checkbox("Logging On", value=config.get("logging_on", False))
 
     if po_files and len(config["po_files"]) == 0:
         st.warning("Please select at least one PO file before saving.")
 
-    config["po_qty_column"] = st.text_input("PO Quantity Column Name", config.get("po_qty_column", "Sales Products Qty"))
+
 
     if len(po_files) == 0:
         st.warning("No PO files available. Please upload a PO file before saving.")
