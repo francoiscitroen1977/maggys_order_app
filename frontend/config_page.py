@@ -6,11 +6,22 @@ import shutil
 
 def config_page():
     st.header("Configuration")
+    st.text_area("Configuration Instructions",""" 
+    - Open the **Configure matching** page.
+    - Choose a new items file and one or more PO files.
+    - Enter the column name that holds the PO quantity (default is `Sales Products Qty`).
+    - Click **Save Configuration** to store your selections.
+    """, height=200
+    )
 
     config = config_manager.load_config()
 
     new_items_files = file_processing.list_files_in_directory(paths.NEW_ITEMS_DIR)
     po_files = file_processing.list_files_in_directory(paths.UPLOADED_PO_DIR)
+
+    config["newitems_file"] = st.selectbox("Select New Items File", new_items_files,
+                                           index=new_items_files.index(config.get("newitems_file")) if config.get(
+                                               "newitems_file") else 0)
 
     uploaded_po = st.file_uploader("Upload PO File", type=["xlsx"])
     if uploaded_po is not None:
@@ -20,15 +31,20 @@ def config_page():
         st.success(f"File {uploaded_po.name} uploaded successfully!")
         po_files = file_processing.list_files_in_directory(paths.UPLOADED_PO_DIR)
 
-    config["newitems_file"] = st.selectbox("Select New Items File", new_items_files, index=new_items_files.index(config.get("newitems_file")) if config.get("newitems_file") else 0)
-    config["po_files"] = st.multiselect("Select PO Files", po_files, default=config.get("po_files", []))
 
-    config["logging_on"] = st.checkbox("Logging On", value=config.get("logging_on", False))
+    config["po_files"] = st.multiselect("Select PO Files", po_files, default=config.get("po_files", []))
+    config["po_qty_column"] = st.text_input("PO Quantity Column Name",
+                                            config.get("po_qty_column", "Sales Products Qty"))
+
+
+
+
+    #config["logging_on"] = st.checkbox("Logging On", value=config.get("logging_on", False))
 
     if po_files and len(config["po_files"]) == 0:
         st.warning("Please select at least one PO file before saving.")
 
-    config["po_qty_column"] = st.text_input("PO Quantity Column Name", config.get("po_qty_column", "Sales Products Qty"))
+
 
     if len(po_files) == 0:
         st.warning("No PO files available. Please upload a PO file before saving.")

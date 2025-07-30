@@ -7,6 +7,12 @@ import time
 
 def main_page():
     st.header("Process Orders")
+    st.text_area("Process Orders", """ 
+        - Go to **Pre-process matching** (the main page).
+        - Click **Start Matching** to compare the selected files. Matched rows are saved in `Newfiletemp/` with names like `matched_<PO>.csv`.
+        - Select any rows you wish to keep and click **Create new file**. The output will be saved as `preprocessed_<NewItemsFileName>` in the same folder.        
+        """, height=200
+                 )
 
     config = config_manager.load_config()
 
