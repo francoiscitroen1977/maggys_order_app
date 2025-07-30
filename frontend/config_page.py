@@ -6,8 +6,12 @@ import shutil
 
 def config_page():
     st.header("Configuration")
-    st.write(
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+    st.text_area("Configuration Instructions",""" 
+    - Open the **Configure matching** page.
+    - Choose a new items file and one or more PO files.
+    - Enter the column name that holds the PO quantity (default is `Sales Products Qty`).
+    - Click **Save Configuration** to store your selections.
+    """, height=200
     )
 
     config = config_manager.load_config()
